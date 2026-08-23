@@ -15,6 +15,7 @@ function header_html(string $title='TSSMT'): void {
 <link rel="stylesheet" href="/assets/style.css">
 <style>
 .language-picker{display:inline-flex;align-items:center}.goog-te-gadget{font:inherit!important;color:var(--ink)!important}.goog-te-gadget .goog-te-combo{max-width:135px;margin:0!important;padding:5px!important;border:1px solid #d5d9df!important;border-radius:6px!important;background:#fff;color:var(--ink)}
+.password-field{position:relative;display:block}.password-field input{padding-right:48px!important}.password-toggle{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:auto!important;margin:0!important;padding:4px 7px!important;border:0!important;background:transparent!important;color:var(--blue)!important;font-size:1.15rem;line-height:1;cursor:pointer}
 </style>
 </head>
 <body>
@@ -55,6 +56,30 @@ function googleTranslateElementInit() {
     layout: google.translate.TranslateElement.InlineLayout.SIMPLE
   }, 'google_translate_element');
 }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('input[type="password"]').forEach(function (input) {
+    var wrapper=document.createElement('span');
+    wrapper.className='password-field';
+    input.parentNode.insertBefore(wrapper,input);
+    wrapper.appendChild(input);
+    var button=document.createElement('button');
+    button.type='button';
+    button.className='password-toggle';
+    button.setAttribute('aria-label','Show password');
+    button.setAttribute('title','Show password');
+    button.textContent='👁';
+    button.addEventListener('click',function(){
+      var show=input.type==='password';
+      input.type=show?'text':'password';
+      button.textContent=show?'◉':'👁';
+      button.setAttribute('aria-label',show?'Hide password':'Show password');
+      button.setAttribute('title',show?'Hide password':'Show password');
+    });
+    wrapper.appendChild(button);
+  });
+});
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
