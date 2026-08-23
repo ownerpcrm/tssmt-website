@@ -5,6 +5,10 @@ $notices=$pdo->query("SELECT * FROM notices WHERE status='active' AND audience I
 $activities=$pdo->query("SELECT * FROM activities WHERE status='active' ORDER BY activity_date DESC LIMIT 3")->fetchAll();
 $gallery=$pdo->query("SELECT ai.image_path,a.title FROM activity_images ai JOIN activities a ON a.id=ai.activity_id WHERE a.status='active' ORDER BY a.activity_date DESC,ai.id DESC LIMIT 12")->fetchAll();
 ?>
+<style>
+.hero--tricolour{min-height:400px;background:linear-gradient(135deg,#f68a31 0%,#fff2e3 34%,#fff 57%,#edf9f0 100%);border-top:9px solid #e46d1b;border-bottom:9px solid #13844b}
+.hero--tricolour:after{background:radial-gradient(circle at 87% 28%,#1d4f9114 0 18%,transparent 18.5%),linear-gradient(90deg,#102a5208,transparent 65%)}
+</style>
 <section class="hero hero--tricolour">
   <div class="hero__content">
     <p class="eyebrow">FREEDOM • SERVICE • UNITY</p>
@@ -12,7 +16,6 @@ $gallery=$pdo->query("SELECT ai.image_path,a.title FROM activity_images ai JOIN 
     <p class="hero__intro"><?=e($pdo->query("SELECT body FROM cms_content WHERE `key`='home_intro'")->fetchColumn()?:'Dedicated to honouring our freedom fighters and serving the nation with pride.')?></p>
     <p class="actions"><a class="button" href="/register.php">Join the mission</a><a class="button button--outline" href="/donate.php">Support the cause</a></p>
   </div>
-  <div class="chakra" aria-label="Ashoka Chakra"><span>24</span></div>
 </section>
 
 <section class="values">
