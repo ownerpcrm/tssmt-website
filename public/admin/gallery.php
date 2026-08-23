@@ -61,7 +61,7 @@ header_html('Manage photo gallery');
   <label>Photo<input type="file" name="image" accept="image/jpeg,image/png,image/webp" <?=$edit['id']?'':'required'?>></label>
   <?php if($edit['image_path']): ?><p>Current photo: <a href="<?=e($edit['image_path'])?>" target="_blank" rel="noopener">View image</a></p><?php endif; ?>
   <label>Display order<input type="number" min="0" name="sort_order" value="<?=e((string)$edit['sort_order'])?>"></label>
-  <label>Status<select name="status"><option value="active" <?=$edit['status']==='active'?'selected':''?>>Visible</option><option value="inactive" <?=$edit['status']==='inactive'?'selected':''?>>Hidden</option></select></label>
+  <label>Status<select name="status"><option value="pending" <?=$edit['status']==='pending'?'selected':''?>>Pending approval</option><option value="active" <?=$edit['status']==='active'?'selected':''?>>Visible</option><option value="inactive" <?=$edit['status']==='inactive'?'selected':''?>>Hidden</option></select></label>
   <button><?= $edit['id']?'Update photo':'Add photo' ?></button>
 </form>
 
