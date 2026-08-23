@@ -1,0 +1,16 @@
+<?php declare(strict_types=1);
+session_name('tssmt_session'); session_set_cookie_params(['httponly'=>true,'secure'=>!empty($_SERVER['HTTPS']),'samesite'=>'Lax']); session_start();
+$env=[]; $envFile=dirname(__DIR__).'/.env'; if (is_file($envFile)) foreach(file($envFile, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES) as $line){ if($line[0]!=='#' && str_contains($line,'=')){[$k,$v]=explode('=',$line,2);$env[trim($k)]=trim($v);}}
+function env(string $key,string $default=''): string {global $env; return $env[$key]??$default;}
+try {$pdo=new PDO('mysql:host='.env('DB_HOST','127.0.0.1').';dbname='.env('DB_NAME','tssmt_db').';charset=utf8mb4',env('DB_USER'),env('DB_PASS'),[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC,PDO::ATTR_EMULATE_PREPARES=>false]);} catch(Throwable $e){http_response_code(500);exit('Database configuration is incomplete.');}
+function e(?string $v):string{return htmlspecialchars((string)$v,ENT_QUOTES,'UTF-8');}
+function csrf():string{if(empty($_SESSION['csrf']))$_SESSION['csrf']=bin2hex(random_bytes(32));return $_SESSION['csrf'];}
+function verify_csrf():void{if(!hash_equals($_SESSION['csrf']??'',$_POST['csrf']??'')){http_response_code(419);exit('Invalid request token.');}}
+function flash(string $msg,string $type='success'):void{$_SESSION['flash']=[$msg,$type];}
+function consume_flash():?array{$f=$_SESSION['flash']??null;unset($_SESSION['flash']);return $f;}
+function redirect(string $path):never{header('Location: '.$path);exit;}
+function setting(PDO $pdo,string $key,string $default=''):string{$s=$pdo->prepare('SELECT value FROM site_settings WHERE `key`=?');$s->execute([$key]);return $s->fetchColumn()?:$default;}
+function require_member():array{global $pdo;if(empty($_SESSION['member_id']))redirect('/login.php');$s=$pdo->prepare("SELECT * FROM members WHERE id=? AND status='active'");$s->execute([$_SESSION['member_id']]);$m=$s->fetch();if(!$m){session_destroy();redirect('/login.php');}return $m;}
+function require_admin():array{global $pdo;if(empty($_SESSION['admin_id']))redirect('/admin/login.php');$s=$pdo->prepare('SELECT * FROM admins WHERE id=? AND is_active=1');$s->execute([$_SESSION['admin_id']]);$a=$s->fetch();if(!$a){session_destroy();redirect('/admin/login.php');}return $a;}
+function audit(PDO $pdo,int $adminId,string $action,string $type,int $id):void{$pdo->prepare('INSERT INTO audit_logs (admin_id,action,record_type,record_id,ip_address) VALUES (?,?,?,?,?)')->execute([$adminId,$action,$type,$id,$_SERVER['REMOTE_ADDR']??'']);}
+function upload(string $field):?string{if(empty($_FILES[$field]['tmp_name'])||$_FILES[$field]['error']!==UPLOAD_ERR_OK)return null;if($_FILES[$field]['size']>5*1024*1024)throw new RuntimeException('File exceeds 5 MB.');$mime=(new finfo(FILEINFO_MIME_TYPE))->file($_FILES[$field]['tmp_name']);$allowed=['image/jpeg'=>'jpg','image/png'=>'png','image/webp'=>'webp','application/pdf'=>'pdf'];if(!isset($allowed[$mime]))throw new RuntimeException('Invalid file type.');$dir=dirname(__DIR__).'/public/uploads';if(!is_dir($dir))mkdir($dir,0750,true);$name=bin2hex(random_bytes(16)).'.'.$allowed[$mime];if(!move_uploaded_file($_FILES[$field]['tmp_name'],$dir.'/'.$name))throw new RuntimeException('Unable to store the uploaded file.');return '/uploads/'.$name;}

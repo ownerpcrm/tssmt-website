@@ -1,0 +1,1 @@
+<?php require_once __DIR__.'/../app/layout.php';header_html('About Us');?><h1>About Us</h1><p><?=nl2br(e($pdo->query("SELECT body FROM cms_content WHERE `key`='about'")->fetchColumn()?:''))?></p><?php footer_html();

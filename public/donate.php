@@ -1,0 +1,1 @@
+<?php require_once __DIR__.'/../app/layout.php';header_html('Donation');?><h1>Support TSSMT</h1><p>Members can submit a donation from their dashboard, where it will be verified before an acknowledgement is issued.</p><p><a class="button" href="/login.php">Member login</a></p><?php footer_html();

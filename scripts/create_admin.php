@@ -1,0 +1,1 @@
+<?php require_once __DIR__.'/../app/bootstrap.php';if($argc!==4){fwrite(STDERR,"Usage: php scripts/create_admin.php email password name\n");exit(1);}$pdo->prepare('INSERT INTO admins (email,password_hash,name) VALUES (?,?,?)')->execute([$argv[1],password_hash($argv[2],PASSWORD_DEFAULT),$argv[3]]);echo "Admin created\n";
