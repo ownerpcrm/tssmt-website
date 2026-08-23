@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS gallery_images (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  image_path VARCHAR(255) NOT NULL,
+  sort_order INT NOT NULL DEFAULT 0,
+  status ENUM('active','inactive') NOT NULL DEFAULT 'active',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;

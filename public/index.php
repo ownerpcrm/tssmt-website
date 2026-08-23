@@ -3,7 +3,7 @@ require_once __DIR__.'/../app/layout.php';
 header_html('Home');
 $notices=$pdo->query("SELECT * FROM notices WHERE status='active' AND audience IN ('public','both') AND publish_date<=CURDATE() AND (expiry_date IS NULL OR expiry_date>=CURDATE()) ORDER BY publish_date DESC LIMIT 3")->fetchAll();
 $activities=$pdo->query("SELECT * FROM activities WHERE status='active' ORDER BY activity_date DESC LIMIT 3")->fetchAll();
-$gallery=$pdo->query("SELECT ai.image_path,a.title FROM activity_images ai JOIN activities a ON a.id=ai.activity_id WHERE a.status='active' ORDER BY a.activity_date DESC,ai.id DESC LIMIT 12")->fetchAll();
+$gallery=$pdo->query("SELECT image_path,title FROM gallery_images WHERE status='active' ORDER BY sort_order ASC,id DESC LIMIT 12")->fetchAll();
 ?>
 <style>
 .hero--tricolour{min-height:400px;background:linear-gradient(135deg,#f68a31 0%,#fff2e3 34%,#fff 57%,#edf9f0 100%);border-top:9px solid #e46d1b;border-bottom:9px solid #13844b}
