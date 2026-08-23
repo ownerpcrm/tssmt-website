@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/bootstrap.php';
+require_once __DIR__.'/mailer.php';
 
 function header_html(string $title='TSSMT'): void {
     global $pdo;

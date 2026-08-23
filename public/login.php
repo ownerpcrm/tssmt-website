@@ -21,5 +21,6 @@ header_html('Member login');
   <label>Password<input type="password" name="password" required></label>
   <button>Login</button>
 </form>
+<p><a href="/forgot-password.php?type=member">Forgot password?</a></p>
 <p>Not a member? <a href="/register.php">Sign up for membership</a>. Your application will be reviewed and approved by an administrator before you can log in.</p>
 <?php footer_html();
