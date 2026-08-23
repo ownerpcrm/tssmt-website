@@ -17,10 +17,11 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 }
 header_html('Donate now');
 ?>
-<style>.donation-form{max-width:900px;margin:0 auto}.donation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 24px}.donation-grid .wide{grid-column:1/-1}@media(max-width:700px){.donation-grid{grid-template-columns:1fr}}</style>
+<style>.donation-form{max-width:900px;margin:0 auto}.donation-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 24px}.donation-grid .wide{grid-column:1/-1}.payment-details{display:grid;grid-template-columns:1fr 240px;gap:24px;align-items:center;margin:26px 0;padding:24px;border:1px solid #d9e5db;border-radius:14px;background:#f4fbf5}.payment-qr{width:100%;height:240px;border:0;background:#fff}@media(max-width:700px){.donation-grid,.payment-details{grid-template-columns:1fr}}</style>
 <section class="donation-form">
 <h1>Donate Now</h1>
 <p>Your contribution helps <?=e(setting($pdo,'org_name','TSSMT'))?> continue its community and freedom-fighter remembrance work. Members may also donate from their dashboard; every donation is verified by an administrator.</p>
+<section class="payment-details"><div><p class="section-label">Pay by UPI or bank transfer</p><h2>Payment details</h2><p><strong>Account name:</strong> Talcher Swadhinata Sangrami Memorial Trust<br><strong>Bank:</strong> UCO Bank, Kanihasambal Puri Branch<br><strong>Account number:</strong> 09090110051689<br><strong>IFSC:</strong> UCBA0000909<br><strong>UPI ID:</strong> 9439415894@ucobank</p><p>After payment, enter the UTR/transaction number and upload proof below. An administrator will verify it before approval.</p></div><object class="payment-qr" data="/assets/payment-qr.pdf" type="application/pdf"><a href="/assets/payment-qr.pdf" target="_blank">Open payment QR code</a></object></section>
 <h2>Contribute Now</h2>
 <form method="post" enctype="multipart/form-data"><input type="hidden" name="csrf" value="<?=csrf()?>">
 <div class="donation-grid">
