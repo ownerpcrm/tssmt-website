@@ -28,7 +28,7 @@ function payment_range_query(PDO $pdo,string $sql,array $range,string $orderBy):
 }
 
 function payment_range_filter(array $range): void { ?>
-<style>.admin-mode main{position:relative}.admin-mode .reporting-filter{position:absolute;top:28px;right:34px;margin:0}@media(max-width:800px){.admin-mode .reporting-filter{right:20px}}@media(max-width:700px){.admin-mode .reporting-filter{position:static;margin:0 0 20px}}</style>
+<style>.admin-mode main{position:relative}.admin-mode .reporting-filter{position:absolute;top:52px;right:34px;margin:0}@media(max-width:800px){.admin-mode .reporting-filter{right:20px}}@media(max-width:700px){.admin-mode .reporting-filter{position:static;margin:0 0 20px}}</style>
 <form method="get" class="reporting-filter">
   <label>Date range
     <select name="range" onchange="this.form.submit()">
