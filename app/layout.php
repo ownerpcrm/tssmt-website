@@ -17,6 +17,7 @@ function header_html(string $title='TSSMT'): void {
 <style>
 .language-picker{display:inline-flex;align-items:center}.goog-te-gadget{font:inherit!important;color:var(--ink)!important}.goog-te-gadget .goog-te-combo{max-width:135px;margin:0!important;padding:5px!important;border:1px solid #d5d9df!important;border-radius:6px!important;background:#fff;color:var(--ink)}
 .password-field{position:relative;display:block}.password-field input{padding-right:48px!important}.password-toggle{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:auto!important;margin:0!important;padding:4px 7px!important;border:0!important;background:transparent!important;color:var(--blue)!important;font-size:1.15rem;line-height:1;cursor:pointer}
+table form:has(button[name="action"]){display:flex;align-items:center;gap:6px;margin:0;padding:0;background:transparent;border:0;box-shadow:none}table form:has(button[name="action"]) input{width:150px;margin:0}table form:has(button[name="action"]) button{margin:0;padding:9px 12px;white-space:nowrap}
 </style>
 </head>
 <body>
