@@ -10,6 +10,6 @@ function org_send_mail(string $to,string $subject,string $html): bool {
     if((int)substr($read(),0,3)!==220||!$cmd('EHLO tssmt.org',250)){$cmd('QUIT',221);fclose($fp);return false;}
     if(strtolower(env('SMTP_ENCRYPTION'))==='tls'&&$port===587){if(!$cmd('STARTTLS',220)||!stream_socket_enable_crypto($fp,true,STREAM_CRYPTO_METHOD_TLS_CLIENT)||!$cmd('EHLO tssmt.org',250)){fclose($fp);return false;}}
     if(!$cmd('AUTH LOGIN',334)||!$cmd(base64_encode($user),334)||!$cmd(base64_encode($pass),235)||!$cmd('MAIL FROM:<'.$from.'>',250)||!$cmd('RCPT TO:<'.$to.'>',250)||!$cmd('DATA',354)){fclose($fp);return false;}
-    $safeSubject=str_replace(["\r","\n"],'',$subject); $body="From: ".setting($GLOBALS['pdo'],'org_name','TSSMT')." <{$from}>\r\nTo: <{$to}>\r\nSubject: {$safeSubject}\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n{$html}\r\n.";
+    $safeSubject=str_replace(["\r","\n"],'',$subject); $signature='<p style="margin-top:24px;color:#666;font-size:12px">Powered by <a href="https://ownerp.in" style="color:#666">OwnERP</a></p>'; $body="From: ".setting($GLOBALS['pdo'],'org_name','TSSMT')." <{$from}>\r\nTo: <{$to}>\r\nSubject: {$safeSubject}\r\nMIME-Version: 1.0\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n{$html}{$signature}\r\n.";
     $ok=$cmd($body,250);$cmd('QUIT',221);fclose($fp);return $ok;
 }
